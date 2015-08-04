@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Experiment{% endblock %}
+{% block body %}
+
+<h2>Evolvulator Experiment Home</h2>
+<table class=mytable>
+	<tr>
+	<th>Experiment Name</th>
+	</tr>
+{% for item in joblist %}
+	<tr class="{{ loop.cycle('alt', ' ') }}">
+	<td><a href="{{url_for('show_experiment', job_name=item.jobname)}}">{{ item.jobname }}</a></td> 
+	</tr>
+{% else %}
+	<tr>
+		<em>Unbelievable.  No jobs here so far</em>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

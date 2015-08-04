@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block title %}Experiment{% endblock %}
+{% block body %}
+<script language="javascript" type="text/javascript" src="{{ url_for('static', filename='flot/jquery.flot.js') }}"></script>
+<script language="javascript" type="text/javascript" src="{{ url_for('static', filename='stripchart.js') }}"></script>
+<script language="javascript" type="text/javascript" src="{{ url_for('static', filename='userinput.js') }}"></script>
+<table>
+<tr>
+    <td>
+    <h2>Evolvulator Parameters for {{core.jobname}} @ {{core.url}}</h2>
+    <table class=mytable>
+        <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Note</th>
+        </tr>
+    {% for item in parameters %}
+        <tr class="{{ loop.cycle('alt', ' ') }}">
+        <td>{{ item.key }}</td> 
+        <td><input type="text" size="16" maxlength="30" name={{ item.key }} value={{item.value}}></td>
+        <td>{{ item.note }}</td> 
+        </tr>
+    {% else %}
+        <tr>
+            <em>Unbelievable.  No params here so far</em>
+        </tr>
+    {% endfor %}
+    </table>
+    </td>
+
+    <td class=myplot>
+    <h2>Optical Density</h2>
+
+    <div id="placeholder" style="width:600px;height:300px;"></div>
+    <p id="timedata">Time<p>
+    <p id="coord">Coordinates: (<span id="x">0</span>, <span id="y">0</span>)</p>
+    
+    <script type="text/javascript">
+        $(function () {
+            var uroot = {{ request.url_root|tojson|safe }};
+            var urlbase = uroot.split("/")[2];// url without a port if it exists
+            var urlbase_noport = urlbase.split(":")[0]
+            var wsbase = "ws://" + urlbase_noport + ":{{wsport}}";
+            var wsuri = wsbase + "/{{core.jobname}}";
+            // alert(wsuri);
+            var placeholder_id = "#placeholder";
+            var datakey = "PHOTODIODE1";
+            var modifyPlot = stripChart({   ws_uri:  wsuri, 
+                                            item_id: placeholder_id,
+                                            time_id: "#timedata", 
+                                            datakey: datakey, 
+                                            debug: false });
+            // method to change the plot color on the on/off button toggle
+            $('div#systemb').bind('click', function() {
+                 if ($(this).hasClass("stop")){ // blue is recording off
+                     modifyPlot({color:"rgb(0,122,179)"});
+                 } else { // make it red to record
+                     modifyPlot({color:"rgb(255,0,0)"}); 
+                 }
+            });
+            
+            $("#placeholder").bind("plothover", function (event, pos, item) {
+                     $("#x").text(Math.round(pos.x));
+                     $("#y").text(Math.round(pos.y));
+            }); // end bind
+        }); // end function
+    </script>
+    </td>
+</tr>
+</table>
+<script type=text/javascript>
+    // script for managing buttons
+    var updateurl = "{{url_for('update_parameters', job_name=core.jobname)}}"
+    $(function() {
+        // create a function that will update all non-advanced system parameters
+        // this lives here to enable templating of the parameters and for them 
+        // to be evaluated on click
+        $('div#updateb').bind('click', function() {
+            $.getJSON(updateurl, 
+                {
+                    {% for item in parameters %}
+                        {{ item.key }} : $('input[name="{{ item.key }}"]').val(),
+                    {% endfor %}
+                }, // end GET parameters
+                function(data) {
+                    $("#console_messages").text(data.result);
+                    console.log(data.result);
+                } // end function
+            ); // end getJSON
+            return false;
+        }); // end function and bind
+        
+        // From userinput.js
+        toggleSwitch('div#systemb', updateurl, "START", "STOP", "SYSTEM_ON");
+        toggleSwitch('div#controlb', updateurl, "LOOP", "OPEN", "CONTROL_ON");
+    }); // end jQuery function
+</script>
+
+<h3>System Messages:</h3>
+<span id=console_messages>?</span>
+<pre id="log"></pre>
+
+<p><table class=button_table>
+    <tr>
+    <td><div class="mybutton update_button" href=# id=updateb>UPDATE</div></td>
+    <td><div class="mybutton system_button" href=# id=systemb>START</div></td>
+    <td><div class="mybutton system_button" href=# id=controlb>LOOP</div></td>
+    </tr>
+    </table>
+<p>&nbsp;
+{% endblock %}

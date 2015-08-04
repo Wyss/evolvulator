@@ -1,0 +1,15 @@
+<!doctype html>
+<head>
+<title>{% block title %}{% endblock %} - Evolvulator</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<div class=page>
+	<body>
+		<script type=text/javascript>
+		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script type="text/javascript">window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"><\/script>')</script>
+		{% block body %}{% endblock %}
+	</body>
+</div>

@@ -1,0 +1,76 @@
+body            { font-family: sans-serif; background: #DEEEC3;}
+a, h1, h2, h3   { color: #007AB3; }
+h1, h2          { font-family: 'Helvetica', serif; margin: 0; }
+h1              { border-bottom: 2px solid #eee; }
+h2              { font-size: 1.2em; text-align: center;}
+h3              { font-size: 1.2em;}
+p#timedata      { text-align: center;}
+p#coord         { text-align: center;}
+
+.page           { margin: 2em auto; width: 78em; border: 5px solid #007AB3;
+                  padding: 0.8em; background: white; }
+
+input           { text-align: right;}
+.mytable            { border:1px; border-collapse:collapse;}
+.mytable tr td      { border:1px; padding:15px; text-align:left;}
+.mytable tr th      { border:1px; }
+.mytable tr th      { background-color:#008000; color:white; }
+.mytable tr.alt td  {color:#000; background-color:#DEEEC3; }
+
+.myplot { vertical-align: top; }
+
+.button_table { margin-left: auto; margin-right: auto; }
+
+.mybutton {
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    width:4.0em;
+    text-align: center;
+
+    -moz-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
+
+    color:#f0f0f0;
+    float:left;
+    font-family:arial,helvetica,sans-serif;
+    font-size:14px;
+    font-weight:bold;
+    padding:10px 25px;
+    text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);
+    border: 1px solid #267ed4;
+}
+
+.system_button {
+    background: -moz-linear-gradient(19% 65% 90deg,#5D9975, #006600, #006600 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#5D9975), to(#006600));
+}
+
+.system_button:hover {
+    background: -moz-linear-gradient(19% 65% 90deg,#5D8875, #336633, #336633 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#5D8875), to(#336633));
+    color: #f1f1f1;
+}
+
+.system_button.stop {
+    background: -moz-linear-gradient(19% 65% 90deg, #FF4D01, #FF8924 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#FF8924), to(#FF4D01));
+}
+
+.system_button.stop:hover {
+    background: -moz-linear-gradient(19% 65% 90deg, #EB4701, #F58423 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#FF6600), to(#EB4701));
+    color: #f1f1f1;
+}
+
+.update_button {
+    background: -moz-linear-gradient(19% 65% 90deg,#0087B4, #0099CC, #0099CC 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#0099CC), to(#0087B4))
+}
+
+.update_button:hover {
+    background: -moz-linear-gradient(19% 65% 90deg,#0082AD, #0099CC, #0099CC 51%);
+    background: -webkit-gradient(linear, 0% 45%, 0% 60%, from(#339999), to(#0082AD));
+    color: #f1f1f1;
+}
